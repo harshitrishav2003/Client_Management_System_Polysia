@@ -122,5 +122,6 @@ app.post('/chat', async (req, res) => {
         res.status(500).json({ error: "Error processing request" });
     }
 });
+//commit
 
 app.listen(5001, () => console.log('Server running on port 5001'));
