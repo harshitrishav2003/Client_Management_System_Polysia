@@ -95,21 +95,9 @@ const App = () => {
         {/* Fallback Route */}
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </Router>
   );
 };
 
 export default App;
-// import React from "react";
-// import Chatbot from "./components/Chatbot";
-
-// function App() {
-//   return (
-//     <div>
-//       <Chatbot />
-//     </div>
-//   );
-// }
-
-// export default App;

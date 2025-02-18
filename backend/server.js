@@ -16,13 +16,19 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-const MONGO_URI = "mongodb://localhost:27017/Polysia"; // Replace with your MongoDB URI
-mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Failed to connect to MongoDB:", err));
 
-// Define User Schema and Model
+const MONGO_URI="mongodb+srv://harshitrishav987:hsVSQaWJ3Hkiucoy@cluster0.8nbzc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+// mongoose
+//   .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(() => console.log("Connected to MongoDB"))
+//   .catch((err) => console.error("Failed to connect to MongoDB:", err));
+mongoose
+  .connect(MONGO_URI, {
+    serverSelectionTimeoutMS: 5000, // Timeout for connection
+  })
+  .then(() => console.log("Connected to MongoDB Atlas"))
+  .catch((err) => console.error("Failed to connect to MongoDB Atlas:", err));
+
 const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -126,6 +132,7 @@ app.post("/api/login", async (req, res) => {
       res.status(401).json({ message: "Invalid credentials" });
     }
   } catch (err) {
+    console.error("Login Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -139,24 +146,7 @@ app.get("/api/pending-users", async (req, res) => {
       res.status(500).json({ message: "Server error" });
     }
   });
-//   app.put("/api/approve-user/:id", async (req, res) => {
-//     try {
-//       const userId = req.params.id;
-//       const user = await User.findById(userId);
-  
-//       if (!user) {
-//         return res.status(404).json({ message: "User not found" });
-//       }
-  
-//       user.isApproved = "approved";  // Change the status to approved
-//       await user.save();
-  
-//       res.json({ message: "User approved successfully." });
-//     } catch (err) {
-//       console.error(err);
-//       res.status(500).json({ message: "Server error" });
-//     }
-//   });
+
 app.put("/api/approve-user/:id", async (req, res) => {
     try {
       const userId = req.params.id;
@@ -349,54 +339,6 @@ app.post('/api/projects', async (req, res) => {
   }
 });
 
-// app.get('/api/projects', async (req, res) => {
-//   try {
-//     const projects = await Project.find()
-//       .populate('client_id', 'client_name') // Populating the client_name from the User collection
-//       .exec();
-
-//     res.status(200).json(projects);
-//   } catch (err) {
-//     console.error('Error fetching projects:', err);
-//     res.status(500).json({ message: 'Failed to fetch projects.', error: err.message });
-//   }
-// });
-
-// // Fetch all projects for a specific client
-// app.get('/api/projects/:clientId', async (req, res) => {
-//   try {
-//     const { clientId } = req.params;
-
-//     // Validate client existence
-//     const client = await User.findById(clientId);
-//     if (!client) {
-//       return res.status(404).json({ message: "Client not found" });
-//     }
-
-//     const projects = await Project.find({ client_id: clientId });
-//     res.json(projects);
-//   } catch (err) {
-//     console.error("Error fetching projects:", err);
-//     res.status(500).json({ message: "Failed to fetch projects" });
-//   }
-// });
-// app.get('/api/project/:projectId', async (req, res) => {
-//   const { projectId } = req.params; // Extract projectId from the URL params
-
-//   try {
-//     const project = await Project.findById(projectId)
-//       .populate('client_id', 'client_name contact_person email phone');
-
-//     if (!project) {
-//       return res.status(404).json({ message: 'Project not found' });
-//     }
-
-//     res.status(200).json(project);
-//   } catch (err) {
-//     console.error('Error fetching project details:', err);
-//     res.status(500).json({ message: 'Failed to fetch project details', error: err.message });
-//   }
-// });
 
 app.get('/api/projects', async (req, res) => {
   try {
@@ -430,6 +372,7 @@ app.get('/api/projects/:clientId', async (req, res) => {
     res.status(500).json({ message: "Failed to fetch projects", error: err.message });
   }
 });
+
 app.get('/api/project/:projectId', async (req, res) => {
   const { projectId } = req.params;
 
@@ -508,28 +451,7 @@ app.put('/api/projects/:projectId/approve', async (req, res) => {
 });
 
 
-// // Reject Project
-// app.put('/api/projects/:projectId/reject', async (req, res) => {
-//   try {
-//     const { projectId } = req.params;
 
-//     const updatedProject = await Project.findByIdAndUpdate(
-//       projectId,
-//       { isApproved: false, status: 'rejected', updated_at: Date.now() },
-//       { new: true }
-//     );
-
-//     if (!updatedProject) {
-//       return res.status(404).json({ message: "Project not found" });
-//     }
-
-//     res.json({ message: "Project rejected successfully", project: updatedProject });
-//   } catch (err) {
-//     console.error("Error rejecting project:", err);
-//     res.status(500).json({ message: "Failed to reject project", error: err.message });
-//   }
-// });
-// Reject and delete project
 app.put('/api/projects/:projectId/reject', async (req, res) => {
   try {
     const { projectId } = req.params;

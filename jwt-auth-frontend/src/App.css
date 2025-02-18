@@ -6,7 +6,7 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   background-color: #4CAF50;
   border-radius: 50%;
   padding: 15px;
@@ -70,6 +70,17 @@
   font-style: italic;
   color: #777;
 }
+.client-profile-card .info {
+  display: flex;
+  align-items: center; /* Aligns icon and text in the center */
+  gap: 8px; /* Space between the icon and text */
+}
+
+.client-profile-card .info svg {
+  font-size: 20px; /* Ensures consistent icon size */
+  color: #1976d2; /* Consistent icon color */
+}
+
 
 @media (max-width: 768px) {
   .client-profile-card {

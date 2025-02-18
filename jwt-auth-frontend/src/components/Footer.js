@@ -12,10 +12,9 @@ const footerStyle = {
   backgroundColor: '#000',
   color: '#fff',
   textAlign: 'center',
-  padding: '10px',
-  position: 'fixed',
-  width: '100%',
-  bottom: '0',
+  padding: '20px',
+  position: 'relative', // or simply remove this line
 };
+
 
 export default Footer;
