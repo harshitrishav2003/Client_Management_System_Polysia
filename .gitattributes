@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+jwt-auth-frontend/node_modules/.cache/default-development/16.pack filter=lfs diff=lfs merge=lfs -text
+jwt-auth-frontend/node_modules/.cache/default-development/8.pack filter=lfs diff=lfs merge=lfs -text
+jwt-auth-frontend/node_modules/.cache/default-development/1.pack filter=lfs diff=lfs merge=lfs -text
